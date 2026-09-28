@@ -1,14 +1,14 @@
 # T-800 Hybrid r4 for Jedi Knight and Mysteries of the Sith
 
-A selectable **multiplayer** T-800 skin for the original **Star Wars Jedi Knight: Dark Forces II** and **Mysteries of the Sith**. Includes the original hand, an optional holding curl, the original RGB565 materials, and genuine **indexed 8-bit materials** for the retail software renderer.
+A selectable **multiplayer** T-800 skin for the original **Star Wars Jedi Knight: Dark Forces II** and **Mysteries of the Sith**. Both hand choices include the leg piston repair. The neck is restored exactly to the approved v1.0.0 model. Includes the original hand, an optional holding curl, the original RGB565 materials, and genuine **indexed 8-bit materials** for the retail software renderer.
 
 ![T-800 in an original Jedi Knight multiplayer session](docs/images/jk-retail-gameplay.png)
 
-*Original JK 1.01, hosted Canyon Oasis, indexed 8-bit materials, optional holding curl. See [validation](docs/VALIDATION.md) for the tested scope.*
+*Final v1.0.1 model in original JK 1.01: hosted Canyon Oasis, indexed 8-bit materials, original hand, 1280×960 software rendering. The original neck is restored and the leg piston repair is retained. See [validation](docs/VALIDATION.md) for the tested scope.*
 
 ## Download and requirements
 
-Download **T800-Hybrid-JK-MotS-v1.0.0.zip** from the [latest release](https://github.com/CodaLilitari/T800-Hybrid-JK-MotS/releases/latest), then extract it completely.
+Download **T800-Hybrid-JK-MotS-v1.0.1.zip** from the [v1.0.1 release page](https://github.com/CodaLilitari/T800-Hybrid-JK-MotS/releases/tag/v1.0.1). Extract the release archive completely before installing.
 
 You need:
 
@@ -63,7 +63,7 @@ Use `JKM.EXE` in the MotS directory for MotS.
 3. Save it and use that character when hosting or joining. In MotS, choose the **Jedi Knight** personality.
 4. Install the matching game package on each participant's computer so everyone has the model and animation support.
 
-This release was checked in hosted multiplayer sessions in both original games. A second connected client was outside this test scope. The package does not configure DirectPlay or networking.
+The final v1.0.1 models passed bounded hosted multiplayer checks with indexed materials: the original hand in original JK 1.01 and the holding curl in original MotS. A second connected client is outside this test scope. The package does not configure DirectPlay or networking.
 
 ## Change variant or uninstall
 
@@ -72,35 +72,43 @@ python .\tools\t800.py verify --game-directory 'C:\Games\Jedi Knight'
 python .\tools\t800.py uninstall --game-directory 'C:\Games\Jedi Knight'
 ```
 
-Uninstall before selecting another pose or material variant. A changed or missing owned file stops automatic removal; unrelated files are preserved. Launching the game normally without `-path T800HybridR4` uses its normal resources.
+When upgrading from v1.0.0, verify and uninstall that installation before installing v1.0.1 into the same directory. Uninstall before selecting another pose or material variant. A changed or missing owned file stops automatic removal; unrelated files are preserved. Launching the game normally without `-path T800HybridR4` uses its normal resources.
 
 ## Hand options
 
 ![Original hand and optional holding curl at the same scale](docs/images/hand-comparison.png)
 
-*Blender geometry comparison, original on the left and holding curl on the right; identical camera, scale and lighting. This image is not a game screenshot.*
+*Historical hand-pose comparison from v1.0.0, retained because the two hand geometries are unchanged: original on the left and holding curl on the right, with identical camera, scale and lighting. This Blender image is not a game screenshot or evidence of repaired body articulation.*
 
-- **Original:** the approved r4 hand and its original detail levels.
+- **Original:** the approved r4 **hand pose** and its original hand detail levels, on the v1.0.1 body with repaired leg pistons. Every non-leg mesh remains identical to the approved v1.0.0 model.
 - **Holding curl:** original finger segments posed into an open holding curl, with the palm, wrist and attachment fixed. No cover or extra hand faces were added. The close hand mesh is reused at all four body detail levels. This is an open grip, not a tightly clenched fist.
 
 The flesh-colored hand built into stock weapon models can still appear. A player skin cannot independently remove those shared weapon faces. This release leaves weapon meshes, first-person views, COGs, sounds and the engine unchanged. See the [hand and compatibility notes](docs/COMPATIBILITY.md).
 
-## What was checked
+## Leg piston repair and checks
 
-- Original **JK 1.01** and **MotS `JKM.EXE`**, using indexed 8-bit materials in the software renderer.
-- Multiplayer character selection, hosted levels, third-person rendering, movement and saber attacks; JK also included Bryar firing.
-- All four native model detail levels, material files, animation allocation fixes and package integrity.
-- Both poses and texture choices are included. The optional holding curl's RGB565 variant has package checks but **has not had a runtime test**.
+The repair reunites piston shell faces that previously followed different joints and connects their upper ends into compact hip guides. It changes only the hip and thigh mesh sections at all four native detail levels.
 
-Tests used original game executables in a private Wine environment. They are bounded runtime observations, not certification of every Windows/GPU/network configuration. Full details are in [VALIDATION.md](docs/VALIDATION.md).
+**The entire neck is restored to v1.0.0**, including its cables, original skull placement and detail levels, torso, clavicles and UVs. The experimental neck redesign is excluded. Original neck animation behavior is retained; this release does not claim to fix its cables.
+
+Checks for the frozen V7 models include:
+
+- Exact byte comparisons proving that every non-leg mesh, the hierarchy, materials and all other model records match the approved v1.0.0 files.
+- Leg seating checks across **64 stock MotS animation files**, their full native thigh-translation intervals, and **1,024 sampled poses**. The validated leg geometry and hierarchy are retained exactly.
+- Independent checks of generated leg-part closure, winding, indices, normals, connection seating and native mesh limits. The maximum is **306 vertices, 587 UV coordinates and 399 faces per mesh**, within the retail limits.
+- Installer builds checked in all **eight game/hand/material combinations**: the model is the only changed game resource. Materials, stock-derived animation/menu resources and installer scripts remain byte-identical to v1.0.0. Representative installation, verification and removal checks passed for both games.
+
+**Final V7 runtime:** the original-hand/indexed JK check and holding-curl/indexed MotS check passed. Observations include multiplayer hosting, restored neck and leg rendering, bounded movement and turns, crouch and aim poses, and visible saber attacks. Exact hashes, game-specific actions and limits are recorded in [VALIDATION.md](docs/VALIDATION.md). The original-neck MotS weapon survey covers all 16 portable selections and mounted EWEB. Its neck, arms and hands match the restored geometry, but the survey predates this leg-only patch and is not an all-weapons test of the V7 hashes.
+
+Tests use original game executables in a private Wine environment. Results are bounded observations, not certification of every Windows/GPU/network configuration. RGB565 remains package-checked; indexed 8-bit materials are the retail software-renderer path.
 
 ![T-800 in an original Mysteries of the Sith multiplayer session](docs/images/mots-retail-gameplay.png)
 
-*Original MotS, hosted Tibanna Mining Outpost, indexed 8-bit materials, optional holding curl.*
+*Final v1.0.1 model in original MotS: side view in a hosted private test level derived from Tibanna Mining Outpost, indexed 8-bit materials, optional holding curl, 1280×960 software rendering. The original neck is restored and the leg piston repair is retained. The test level is not included in the release.*
 
 ## Editing and Blender-Sith
 
-The complete four-LOD sources are in `assets/models/`. The compatible [Blender-Sith](https://github.com/smlu/blender-sith) revision checked for this work was [`ecc9013`](https://github.com/smlu/blender-sith/commit/ecc90131bcfdeabd400225e8a72ce94cbff1ec5c), one commit newer than the `v1.0.0-rc4` release when checked on September 25, 2026. Import/save/reopen was checked with Blender `bpy` 5.1.2.
+The complete four-LOD sources are in `assets/models/`. The project copy of [Blender-Sith](https://github.com/smlu/blender-sith) matched upstream HEAD [`ecc9013`](https://github.com/smlu/blender-sith/commit/ecc90131bcfdeabd400225e8a72ce94cbff1ec5c) when checked on September 27, 2026 local time (September 28 UTC), one commit newer than `v1.0.0-rc4`. Import/save/reopen was checked with Blender `bpy` 5.1.2.
 
 Blender-Sith's importer creates an editable scene from geoset 0; its parser reads all four geosets. Preserve the native 3DO for the complete model. The add-on is available from its own upstream repository.
 
@@ -111,7 +119,7 @@ Blender-Sith's importer creates an editable scene from geoset 0; its parser read
 | **Andrei Pemberton** | Project direction, source provision, design decisions, testing requirements and feedback. |
 | **Red — Claude Opus 5.5** | The supplied `t800_jk_v2` conversion checkpoint and initial game-model fitting; later eye face extra-light implementation idea. |
 | **Lilitari — ChatGPT 6 Pro Astra** | Hybrid integration, proportion and neck refinements, eye work, chrome materials and independent hand-repair review. |
-| **Coda — Codex Lily / OpenAI Codex** | Retail multiplayer integration, compatibility fixes, 8-bit materials, runtime validation, optional hand repair and public packaging. |
+| **Coda — Codex Lily / OpenAI Codex** | Retail multiplayer integration, compatibility fixes, 8-bit materials, runtime validation, optional hand repair, leg piston repair, exact neck restoration and public packaging. |
 | **[Jonn (`Sketchfab_apk_gratis`)](https://sketchfab.com/Sketchfab_apk_gratis)** | Credited source uploader/porter of **[T 800 low poly (PORT/P3D)](https://sketchfab.com/3d-models/t-800-low-poly-portp3d-ce8c971d7b4240229bbebed9b53198b6)**. |
 
 The source model is listed under **[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Its title and description identify it as a port; no earlier mesh creator is named in the available source notice. We preserve the credited name without claiming to have established earlier authorship or upstream port permissions.
